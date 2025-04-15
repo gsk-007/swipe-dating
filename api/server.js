@@ -6,6 +6,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import matchRoutes from "./routes/matchRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
+import { connectDB } from "./config/db.js";
 
 dotenv.config();
 
@@ -19,4 +20,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/matches", matchRoutes);
 app.use("/api/messages", messageRoutes);
 
-app.listen(PORT, console.log("Listening on port " + PORT));
+app.listen(PORT, () => {
+  console.log("Server started at port: " + PORT);
+  connectDB();
+});
