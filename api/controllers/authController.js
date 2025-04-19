@@ -9,7 +9,7 @@ const signToken = (id) => {
 };
 
 export const signup = async (req, res) => {
-  const { error, data } = signupSchema.validate(req.body, {
+  const { error, value } = signupSchema.validate(req.body, {
     errors: {
       wrap: {
         label: "",
@@ -26,7 +26,7 @@ export const signup = async (req, res) => {
   }
 
   try {
-    const { name, email, password, age, gender, genderPreference } = data;
+    const { name, email, password, age, gender, genderPreference } = value;
     const newUser = await User.create({
       name,
       email,
@@ -58,7 +58,7 @@ export const signup = async (req, res) => {
   }
 };
 export const login = async (req, res) => {
-  const { error, data } = loginSchema.validate(req.body, {
+  const { error, value } = loginSchema.validate(req.body, {
     errors: {
       wrap: {
         label: "",
@@ -74,7 +74,7 @@ export const login = async (req, res) => {
     return;
   }
   try {
-    const { email, password } = data;
+    const { email, password } = value;
 
     const user = await User.findOne({ email });
 
