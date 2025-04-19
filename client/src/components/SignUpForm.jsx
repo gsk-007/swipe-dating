@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuthStore } from "../store/useAuthStore";
 
 const SignUpForm = () => {
   const [name, setName] = useState("");
@@ -8,10 +9,16 @@ const SignUpForm = () => {
   const [age, setAge] = useState("");
   const [genderPreference, setGenderPreference] = useState("");
 
-  const loading = false;
+  const { signup, loading } = useAuthStore();
 
   return (
-    <form className="space-y-1">
+    <form
+      className="space-y-1"
+      onSubmit={(e) => {
+        e.preventDefault();
+        signup({ name, email, password, age, gender, genderPreference });
+      }}
+    >
       {/* NAME */}
       <div>
         <label
