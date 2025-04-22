@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
+import { disconnectSocket, initializeSocket } from "../socket/socket.client";
 
 export const useAuthStore = create((set) => ({
   authUser: null,
@@ -12,6 +13,7 @@ export const useAuthStore = create((set) => ({
       set({ loading: true });
       const res = await axiosInstance.post("/auth/signup", signupData);
       set({ authUser: res.data.user });
+      initializeSocket(res.data.user._id);
       toast.success("Account created successfully");
     } catch (error) {
       toast.error(error.response.data.message || "Something went wrong");
@@ -24,6 +26,7 @@ export const useAuthStore = create((set) => ({
       set({ loading: true });
       const res = await axiosInstance.post("/auth/login", loginData);
       set({ authUser: res.data.user });
+      initializeSocket(res.data.user._id);
       toast.success("Logged in successfully");
     } catch (error) {
       toast.error(error.response.data.message || "Something went wrong");
@@ -34,6 +37,7 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     try {
       const res = await axiosInstance.post("/auth/logout");
+      disconnectSocket();
       if (res.status === 200) {
         set({ authUser: res.data.user });
       }
@@ -47,6 +51,7 @@ export const useAuthStore = create((set) => ({
     try {
       const res = await axiosInstance.get("/auth/me");
       set({ authUser: res.data.user });
+      initializeSocket(res.data.user._id);
     } catch (error) {
       set({ authUser: null });
       console.log(error);
