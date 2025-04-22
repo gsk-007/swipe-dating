@@ -16,7 +16,6 @@ const HomePage = () => {
     unsubscribeFromNewMatches,
   } = useMatchStore();
 
-  console.log(isLoadingUserProfiles)
   const { authUser } = useAuthStore();
 
   useEffect(() => {
