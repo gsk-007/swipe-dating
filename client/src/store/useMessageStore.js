@@ -12,7 +12,11 @@ export const useMessageStore = create((set) => ({
       set((state) => ({
         messages: [
           ...state.messages,
-          { sender: useAuthStore.getState().authUser._id, content },
+          {
+            _id: Date.now(),
+            sender: useAuthStore.getState().authUser._id,
+            content,
+          },
         ],
       }));
       await axiosInstance.post("/messages/send", { receiverId, content });
