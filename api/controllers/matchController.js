@@ -40,9 +40,9 @@ export const swipeRight = async (req, res) => {
         const currentSocketId = connectedUsers.get(currentUser._id.toString());
         if (currentSocketId) {
           io.to(currentSocketId).emit("newMatch", {
-            _id: likedUserId._id,
-            name: likedUserId.name,
-            image: likedUserId.image,
+            _id: likedUser._id,
+            name: likedUser.name,
+            image: likedUser.image,
           });
         }
       }
